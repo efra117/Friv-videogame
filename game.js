@@ -1,11 +1,20 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d'); //Context created so qe can use the Canvas
+const btnUp = document.querySelector('#up');
+const btnLeft = document.querySelector('#left');
+const btnRight = document.querySelector('#right');
+const btnDown = document.querySelector('#down');
 
 window.addEventListener('load', setCanvasSize); //We put this Even listener in order to start the js code after the html has been loaded completely
 window.addEventListener('resize', setCanvasSize);
 
 let canvasSize;
 let elementSize;
+
+const playerPosition = {
+    x: undefined,
+    y: undefined,
+};
 
 function startGame() {  
 
@@ -14,7 +23,7 @@ function startGame() {
     game.font = `${elementSize}px Verdana`;
     game.textAlign = 'end';
 
-    const map = maps[1];
+    const map = maps[2];
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowCols});
@@ -59,4 +68,38 @@ function setCanvasSize () {
     elementSize = canvasSize/10;
 
     startGame();
+}
+
+window.addEventListener('keydown', moveByKeys);
+btnUp.addEventListener('click', moveUp);
+btnLeft.addEventListener('click', moveLeft);
+btnRight.addEventListener('click', moveRight);
+btnDown.addEventListener('click', moveDown);
+
+function moveByKeys (event) {
+    if(event.key == 'ArrowUp') {
+        moveUp();
+    } else if(event.key == 'ArrowLeft') {
+        moveLeft();
+    } else  if(event.key == 'ArrowRight') {
+        moveRight();
+    } else if(event.key == 'ArrowDown') {
+        moveDown();
+    }   
+}
+
+function moveUp() {
+    console.log('Me quiero mover hacia arriba')
+}
+
+function moveLeft() {
+    console.log('Me quiero mover hacia la izquierda')
+}
+
+function moveRight() {
+    console.log('Me quiero mover hacia la derecha')
+}
+
+function moveDown() {
+    console.log('Me quiero mover hacia abajo')
 }
