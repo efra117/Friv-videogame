@@ -16,6 +16,21 @@ const playerPosition = {
     y: undefined,
 };
 
+function setCanvasSize () {
+
+    if(window.innerHeight > window.innerWidth) {
+        canvasSize = window.innerWidth*0.75;
+    } else {
+        canvasSize = window.innerHeight*0.75;
+    }
+    canvas.setAttribute('width', canvasSize); // window.innerWidth makes the element responsive
+    canvas.setAttribute('height', canvasSize);
+    
+    elementSize = canvasSize/10;
+
+    startGame();
+}
+
 function startGame() {  
 
     console.log({canvasSize, elementSize})
@@ -28,15 +43,27 @@ function startGame() {
     const mapRowCols = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowCols});
 
+    game.clearRect(0,0, canvasSize, canvasSize)
+
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
         const emoji = emojis[col];
         const posX= elementSize *(colI+1)
         const posY= elementSize *(rowI+1)
-        game.fillText(emoji, posX, posY);
-        })
-    });
 
+        if (col=='O') {
+           if(!playerPosition.x && !playerPosition.y){
+            playerPosition.x = posX;
+            playerPosition.y = posY;
+            console.log({playerPosition});
+           }
+        }
+
+        game.fillText(emoji, posX, posY);
+        });
+    }); 
+
+    movePlayer();
 
     // for(let row=1; row<=10; row++){
     //     for(let col=1; col<=10 ; col++) {
@@ -55,20 +82,11 @@ function startGame() {
 
 }
 
-function setCanvasSize () {
+function movePlayer () {
+    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y)
+   }
 
-    if(window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth*0.75;
-    } else {
-        canvasSize = window.innerHeight*0.75;
-    }
-    canvas.setAttribute('width', canvasSize); // window.innerWidth makes the element responsive
-    canvas.setAttribute('height', canvasSize);
-    
-    elementSize = canvasSize/10;
 
-    startGame();
-}
 
 window.addEventListener('keydown', moveByKeys);
 btnUp.addEventListener('click', moveUp);
@@ -89,7 +107,9 @@ function moveByKeys (event) {
 }
 
 function moveUp() {
-    console.log('Me quiero mover hacia arriba')
+    console.log('Me quiero mover hacia arriba');
+    playerPosition.y -= elementSize;
+    startGame();
 }
 
 function moveLeft() {
