@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const spanLives = document.querySelector('#lives');
 
 window.addEventListener('load', setCanvasSize); //We put this Even listener in order to start the js code after the html has been loaded completely
 window.addEventListener('resize', setCanvasSize);
@@ -57,6 +58,8 @@ function startGame() {
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
     console.log({map, mapRows, mapRowCols});
+
+    showLives();
 
     enemyPosition=[];
 
@@ -139,9 +142,8 @@ function levelWin() {
     startGame();
 }
 
-function gameWin() {
 
-}
+
 
 function levelFail() {
     lives--;
@@ -149,6 +151,7 @@ function levelFail() {
     if(lives<=0){
         console.log('Chocaste con una bomba');
         level=0;
+        lives=3;
     }
     playerPosition.x= undefined;
     playerPosition.y= undefined;
@@ -156,6 +159,15 @@ function levelFail() {
     }
 
 
+function gameWin() {
+
+    }
+
+function showLives() {
+    const heartsArray = Array(lives).fill(emojis['HEART']);
+    spanLives.innerHTML = "";
+    heartsArray.forEach(heart => spanLives.append(heart))
+}
 
 window.addEventListener('keydown', moveByKeys);
 btnUp.addEventListener('click', moveUp);
