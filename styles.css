@@ -84,7 +84,7 @@ main div p{
 
 @media (max-width: 440px) {
     button {
-        margin-top: 25px;
+        margin-top: 5px;
     }
 
     #up, #down {
