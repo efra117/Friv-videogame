@@ -6,6 +6,8 @@ const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
 
 window.addEventListener('load', setCanvasSize); //We put this Even listener in order to start the js code after the html has been loaded completely
 window.addEventListener('resize', setCanvasSize);
@@ -62,7 +64,8 @@ function startGame() {
 
     if(!timeStart) {
         timeStart = Date.now();
-        timeInterval = setInterval(showTime, 100)
+        timeInterval = setInterval(showTime, 100);
+        showRecord ();
     }
 
 
@@ -181,12 +184,13 @@ function gameWin() {
 
         if (recordTime >= playerTime){
             localStorage.setItem('record_time', playerTime);
-            console-log('Superaste el record')
+            pResult.innerHTML='Superaste el record';
         } else {
-            console-log('No superaste el record')
+            pResult.innerHTML = 'No superaste el record';
         }
     } else {
         localStorage.setItem('record_time', playerTime)
+        pResult.innerHTML = '¿Primera vez? Ok, ahora trata de mejorar el tiempo'
     }
 
     console.log({recordTime, playerTime});
@@ -202,6 +206,10 @@ function showLives() {
 
 function showTime () {
     spanTime.innerHTML = Date.now() - timeStart;
+}
+
+function showRecord () {
+spanRecord.innerHTML = localStorage.getItem('record_time');
 }
 
 window.addEventListener('keydown', moveByKeys);
