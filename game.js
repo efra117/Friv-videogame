@@ -5,6 +5,7 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
 
 window.addEventListener('load', setCanvasSize); //We put this Even listener in order to start the js code after the html has been loaded completely
 window.addEventListener('resize', setCanvasSize);
@@ -13,6 +14,11 @@ let canvasSize;
 let elementSize;
 let level=0;
 let lives=3;
+let timeStart;
+let timePlayer;
+let timeInterval;
+
+
 const playerPosition = {
     x: undefined,
     y: undefined,
@@ -54,10 +60,15 @@ function startGame() {
         return
     }
 
+    if(!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100)
+    }
+
 
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
-    console.log({map, mapRows, mapRowCols});
+    // console.log({map, mapRows, mapRowCols});
 
     showLives();
 
@@ -143,15 +154,15 @@ function levelWin() {
 }
 
 
-
-
 function levelFail() {
+    console.log('Chocaste con una bomba');
     lives--;
 
     if(lives<=0){
-        console.log('Chocaste con una bomba');
+        
         level=0;
         lives=3;
+        timeStart = undefined;
     }
     playerPosition.x= undefined;
     playerPosition.y= undefined;
@@ -160,6 +171,26 @@ function levelFail() {
 
 
 function gameWin() {
+    clearInterval(timeInterval);
+
+    const recordTime = localStorage.getItem('record_time');
+    const playerTime = Date.now()- timeStart;
+
+    if(recordTime){
+        
+
+        if (recordTime >= playerTime){
+            localStorage.setItem('record_time', playerTime);
+            console-log('Superaste el record')
+        } else {
+            console-log('No superaste el record')
+        }
+    } else {
+        localStorage.setItem('record_time', playerTime)
+    }
+
+    console.log({recordTime, playerTime});
+
 
     }
 
@@ -167,6 +198,10 @@ function showLives() {
     const heartsArray = Array(lives).fill(emojis['HEART']);
     spanLives.innerHTML = "";
     heartsArray.forEach(heart => spanLives.append(heart))
+}
+
+function showTime () {
+    spanTime.innerHTML = Date.now() - timeStart;
 }
 
 window.addEventListener('keydown', moveByKeys);
