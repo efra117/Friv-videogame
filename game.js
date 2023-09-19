@@ -172,7 +172,7 @@ function levelWin() {
 function levelFail() {
     // console.log('Chocaste con una bomba');
     // const emoji = emojis['BOMB_COLLISION'];
-    game.fillText(emoji, playerPosition.x, playerPosition.y);
+    // game.fillText(emoji, playerPosition.x, playerPosition.y);
     lives--;
 
     if(lives<=0){
