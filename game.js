@@ -26,6 +26,8 @@ let lives=3;
 let timeStart;
 let timePlayer;
 let timeInterval;
+let map=[];
+let emoji=[];
 
 
 const playerPosition = {
@@ -52,7 +54,7 @@ function setCanvasSize () {
 
     canvas.setAttribute('width', canvasSize); // window.innerWidth makes the element responsive
     canvas.setAttribute('height', canvasSize);
-    
+
     elementSize = canvasSize/10;
 
     playerPosition.x = undefined;
@@ -60,16 +62,15 @@ function setCanvasSize () {
     startGame();
 }
 
-function startGame() {  
-
-    console.log({canvasSize, elementSize})
+function startGame() {
 
     game.font = `${elementSize}px Verdana`;
     game.textAlign = 'end';
 
-    const map = maps[level];
+    map = maps[level];
 
     if(!map) {
+
         gameWin();
         return
     }
@@ -80,12 +81,34 @@ function startGame() {
         showRecord ();
     }
 
+    showLives();
 
+    fillCanvas();
+
+    movePlayer();
+    // for(let row=1; row<=10; row++){
+    //     for(let col=1; col<=10 ; col++) {
+    //         game.fillText(emojis[mapRowCols[row-1][col-1]],elementSize*col, elementSize*row)
+    //     }
+    // }
+
+
+    // game.fillRect(0,0,100,100); //(where it starts in X, where it starts in Y, width, heigh)
+    // game.clearRect(0,0,50,50); //this function help us to erase a section
+
+    // game.font = '25px verdana'; //It help us to set font properties to the text in fillText
+    // game.fillStyle = 'blue'; //It help us to give style to the text in fillText
+    // game.textAlign = 'end' //It helps us to move the test in fillText acording to the position defined in X & Y
+    // game.fillText('momos',50,50)
+}
+
+
+
+function fillCanvas() {
+
+    // console.log({canvasSize, elementSize})
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
-    // console.log({map, mapRows, mapRowCols});
-
-    showLives();
 
     enemyPosition=[];
 
@@ -93,7 +116,12 @@ function startGame() {
 
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
-        const emoji = emojis[col];
+        if(!map) {
+            emoji = emojisResult[col];
+        } else {
+            emoji = emojis[col];
+        }
+
         const posX= elementSize *(colI+1)
         const posY= elementSize *(rowI+1)
 
@@ -112,30 +140,16 @@ function startGame() {
                 x: posX,
                 y: posY,
             });
-            
+
         }
 
 
         game.fillText(emoji, posX, posY);
         });
-    }); 
+    });
 
-    movePlayer();  
-    // for(let row=1; row<=10; row++){
-    //     for(let col=1; col<=10 ; col++) {
-    //         game.fillText(emojis[mapRowCols[row-1][col-1]],elementSize*col, elementSize*row)
-    //     }
-    // }
-    
-
-    // game.fillRect(0,0,100,100); //(where it starts in X, where it starts in Y, width, heigh)
-    // game.clearRect(0,0,50,50); //this function help us to erase a section
-   
-    // game.font = '25px verdana'; //It help us to set font properties to the text in fillText
-    // game.fillStyle = 'blue'; //It help us to give style to the text in fillText
-    // game.textAlign = 'end' //It helps us to move the test in fillText acording to the position defined in X & Y
-    // game.fillText('momos',50,50)
 }
+
 
 function movePlayer () {
     const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1);
@@ -152,18 +166,15 @@ function movePlayer () {
         const enemyCollisionY = enemy.y.toFixed(1) == playerPosition.y.toFixed(1);
         return enemyCollisionX && enemyCollisionY;
     })
-    
-    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y); 
+
+    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 
     if(enemyCollision) {
 
         game.fillText(emojis['BOMB_COLLISION'], playerPosition.x, playerPosition.y);
-        setTimeout(levelFail,500); 
+        setTimeout(levelFail,500);
     }
 
-    
-
-    
    }
 
 
@@ -181,7 +192,7 @@ function levelFail() {
     lives--;
 
     if(lives<=0){
-        
+
         level=0;
         lives=3;
         timeStart = undefined;
@@ -192,15 +203,16 @@ function levelFail() {
     }
 
 
-
 function gameWin() {
+    // fillCanvas();
+
     clearInterval(timeInterval);
 
     const recordTime = localStorage.getItem('record_time');
     const playerTime = Date.now()- timeStart;
 
     if(recordTime){
-        
+
 
         if (recordTime >= playerTime){
             localStorage.setItem('record_time', playerTime);
@@ -214,9 +226,16 @@ function gameWin() {
     }
 
     console.log({recordTime, playerTime});
-
-
     }
+
+
+// function winner() {
+
+//     game.clearRect(0,0, canvasSize, canvasSize)
+//      // game.fillText('Felicidades, has ganado', posX, posY);
+
+// }
+
 
 function showLives() {
     const heartsArray = Array(lives).fill(emojis['HEART']);
@@ -247,7 +266,7 @@ function moveByKeys (event) {
         moveRight();
     } else if(event.key == 'ArrowDown') {
         moveDown();
-    }   
+    }
 }
 
 function moveUp() {
@@ -258,7 +277,7 @@ function moveUp() {
         playerPosition.y -= elementSize;
         startGame();
     }
-  
+
 }
 
 function moveLeft() {

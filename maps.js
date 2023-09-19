@@ -14,6 +14,14 @@ const emojis = {
     'WIN': '🏆',
     'HEART': '❤️',
   };
+
+  const emojisResult = {
+    '-': ' ',
+    'O': '🚪',
+    'X': '🥩',
+    'I': '🥩',
+    'PLAYER': '🐺',
+  };
   
   const maps = [];
   maps.push(`
