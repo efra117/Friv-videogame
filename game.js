@@ -1,5 +1,5 @@
 const canvas = document.querySelector('#game');
-const game = canvas.getContext('2d'); //Context created so qe can use the Canvas
+const game = canvas.getContext('2d'); //Context created so we can use the Canvas
 const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
@@ -8,9 +8,16 @@ const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
 const pResult = document.querySelector('#result');
+const pageRefresh = document.querySelector('#restart-game')
 
 window.addEventListener('load', setCanvasSize); //We put this Even listener in order to start the js code after the html has been loaded completely
 window.addEventListener('resize', setCanvasSize);
+
+pageRefresh.addEventListener('click', reStartGame);
+
+function reStartGame() {
+   location.reload();
+}
 
 let canvasSize;
 let elementSize;
@@ -94,12 +101,12 @@ function startGame() {
            if(!playerPosition.x && !playerPosition.y){
             playerPosition.x = posX;
             playerPosition.y = posY;
-            console.log({playerPosition});
+            // console.log({playerPosition});
            }
         } else if (col=='I') {
             giftPosition.x = posX;
             giftPosition.y = posY;
-            console.log({giftPosition});
+            // console.log({giftPosition});
         } else if (col=='X') {
             enemyPosition.push({
                 x: posX,
@@ -163,7 +170,9 @@ function levelWin() {
 
 
 function levelFail() {
-    console.log('Chocaste con una bomba');
+    // console.log('Chocaste con una bomba');
+    // const emoji = emojis['BOMB_COLLISION'];
+    game.fillText(emoji, playerPosition.x, playerPosition.y);
     lives--;
 
     if(lives<=0){
@@ -176,6 +185,7 @@ function levelFail() {
     playerPosition.y= undefined;
     startGame();
     }
+
 
 
 function gameWin() {
