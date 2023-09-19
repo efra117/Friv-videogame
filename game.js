@@ -121,7 +121,6 @@ function startGame() {
     }); 
 
     movePlayer();  
-
     // for(let row=1; row<=10; row++){
     //     for(let col=1; col<=10 ; col++) {
     //         game.fillText(emojis[mapRowCols[row-1][col-1]],elementSize*col, elementSize*row)
@@ -136,7 +135,6 @@ function startGame() {
     // game.fillStyle = 'blue'; //It help us to give style to the text in fillText
     // game.textAlign = 'end' //It helps us to move the test in fillText acording to the position defined in X & Y
     // game.fillText('momos',50,50)
-
 }
 
 function movePlayer () {
@@ -149,18 +147,25 @@ function movePlayer () {
         levelWin();
     }
 
-    const enemyCollision = enemyPosition.find( enemy => {
+    const enemyCollision = enemyPosition.find(enemy => {
         const enemyCollisionX = enemy.x.toFixed(1) == playerPosition.x.toFixed(1);
         const enemyCollisionY = enemy.y.toFixed(1) == playerPosition.y.toFixed(1);
         return enemyCollisionX && enemyCollisionY;
     })
+    
+    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y); 
 
     if(enemyCollision) {
-        levelFail();
+
+        game.fillText(emojis['BOMB_COLLISION'], playerPosition.x, playerPosition.y);
+        setTimeout(levelFail,500); 
     }
 
-    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+    
+
+    
    }
+
 
 function levelWin() {
     console.log('Subiste de nivel')
