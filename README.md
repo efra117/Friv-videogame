@@ -31,12 +31,12 @@ Friv Videogame is a 2D videogame inspired on an old videogames platform. In this
 
 - You can add more maps in the file "maps.js" and ask for a fork to add more levels to the game
 
-## 3. Play the game
+## 4. Play the game
 
 You can play the game following the next link:
 
 [Friv Videogame](https://efra117.github.io/Friv-videogame/ "Friv Videogame")
 
-## 4. License
+## 5. License
 
 This project has an MIT License
