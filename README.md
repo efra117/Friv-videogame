@@ -3,12 +3,12 @@
 Welcome to Friv Videogame. A game inspired on an old videogames platform.
 
 
-##Index
+## Index
 
 * [1.  Project description](#1-Project description)
-* [1.  Technologies](#1-Technologies)
-* [1.  Considerations](#1-Considerations)
-* [1.  Play the game](#1-Play the game)
+* [2.  Technologies](#2-Technologies)
+* [3.  Considerations](#3-Considerations)
+* [4.  Play the game](#4-Play the game)
 
 
 ## 1. Project description
