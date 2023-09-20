@@ -14,7 +14,7 @@ Welcome to Friv Videogame. A game inspired on an old videogames platform.
 
 ## 1. Project_description
 
-Friv Videogame is a 2D videogame inspired on an old videogames platform. In this videogame you had to move the wolf towards the meat, but avoiding to touch the bombs because if you makes a collision with a bomb you will lose a live and you will have to start the level again; if you lose three lifes, you will have to start the game from the beginnig. If you can reach the meet without touch a bomb you will pass to the next level and win the game if you pass all the levels without lose all your lifes
+Friv Videogame is a 2D videogame inspired on an old videogames platform. In this videogame you had to move the wolf towards the meat, but avoiding to touch the bombs because if you makes a collision with a bomb you will lose a live and you will have to start the level again; if you lose three lives, you will have to start the game from the beginning. If you can reach the meet without touch a bomb you will pass to the next level and win the game if you pass all the levels without lose all your lives
 
 ## 2. Technologies
 
