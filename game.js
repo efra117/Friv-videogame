@@ -226,8 +226,8 @@ function fillLose() {
 
 
 function movePlayer () {
-    const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1);
-    const giftCollisionY = playerPosition.y.toFixed(1) == giftPosition.y.toFixed(1);
+    const giftCollisionX = playerPosition.x.toFixed(0) == giftPosition.x.toFixed(0);
+    const giftCollisionY = playerPosition.y.toFixed(0) == giftPosition.y.toFixed(0);
     const giftCollision = giftCollisionX && giftCollisionY;
 
     if(giftCollision) {
@@ -236,8 +236,8 @@ function movePlayer () {
     }
 
     const enemyCollision = enemyPosition.find(enemy => {
-        const enemyCollisionX = enemy.x.toFixed(1) == playerPosition.x.toFixed(1);
-        const enemyCollisionY = enemy.y.toFixed(1) == playerPosition.y.toFixed(1);
+        const enemyCollisionX = enemy.x.toFixed(0) == playerPosition.x.toFixed(0);
+        const enemyCollisionY = enemy.y.toFixed(0) == playerPosition.y.toFixed(0);
         return enemyCollisionX && enemyCollisionY;
     })
 
