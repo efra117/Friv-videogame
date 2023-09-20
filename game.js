@@ -29,6 +29,7 @@ let timeInterval;
 let map=[];
 let mapWin=[]
 let emoji=[];
+let result;
 
 
 const playerPosition = {
@@ -71,7 +72,10 @@ function startGame() {
     map = maps[level];
     mapWin = maps[maps.length-1];
 
-
+    if(lives<=0){
+        gameLose();
+        return;
+    }
     if(!map) {
         fillWin();
         gameWin();
@@ -249,13 +253,23 @@ function movePlayer () {
         game.fillText(emojis['BOMB_COLLISION'], playerPosition.x, playerPosition.y);
         
         if(lives<=0){
-            setTimeout(fillLose,500);
-            setTimeout(levelFail,1000);
-            return
-        }else {
-            setTimeout(levelFail,500);
-            return
+            setTimeout(fillLose,300);
+            gameLose();
+            return;
+        } else {
+            setTimeout(levelFail,300);
+            return;
         }
+        
+        
+        // if(lives<=0){
+        //     setTimeout(fillLose,300);
+        //     setTimeout(levelFail,600);
+        //     return
+        // }else {
+        //     setTimeout(levelFail,300);
+        //     return
+        // }
        
 
     }
@@ -272,17 +286,25 @@ function levelWin() {
 
 function levelFail() {
     
-    if(lives<=0){
-        
-        level=0;
-        lives=3;
-        timeStart = undefined;
-    }
+    // if(lives<=0){ 
+    //     level=0;
+    //     lives=3;
+    //     timeStart = undefined;
+    // }
     playerPosition.x= undefined;
     playerPosition.y= undefined;
     
     startGame();
     }
+
+function gameLose() {
+    clearInterval(timeInterval);
+
+    const recordTime = localStorage.getItem('record_time');
+    const playerTime = Date.now()- timeStart;
+    pResult.innerHTML='You lost 😔. But you can try again😉';
+
+}
 
 
 function gameWin() {
@@ -292,16 +314,17 @@ function gameWin() {
     const recordTime = localStorage.getItem('record_time');
     const playerTime = Date.now()- timeStart;
 
+
     if(recordTime){
         if (recordTime >= playerTime){
             localStorage.setItem('record_time', playerTime);
-            pResult.innerHTML='Superaste el record';
+            pResult.innerHTML='YOU WIN!!! and YOU BROKE THE RECORD 😁';
         } else {
-            pResult.innerHTML = 'No superaste el record';
+            pResult.innerHTML = 'YOU WIN!!! But you didn´t broke the record. Try again 😁 ';
         }
     } else {
         localStorage.setItem('record_time', playerTime)
-        pResult.innerHTML = '¿Primera vez? Ok, ahora trata de mejorar el tiempo'
+        pResult.innerHTML = 'First time? Ok, now try to improve your time 😉'
     }
 
     console.log({recordTime, playerTime});
@@ -309,14 +332,6 @@ function gameWin() {
     }
 
     
-
-
-// function winner() {
-
-//     game.clearRect(0,0, canvasSize, canvasSize)
-//      // game.fillText('Felicidades, has ganado', posX, posY);
-
-// }
 
 
 function showLives() {
