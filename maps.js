@@ -15,11 +15,19 @@ const emojis = {
     'HEART': '❤️',
   };
 
-  const emojisResult = {
+  const emojisWin = {
     '-': ' ',
     'O': '🚪',
     'X': '🥩',
     'I': '🥩',
+    'PLAYER': '🐺',
+  };
+
+  const emojisLose = {
+    '-': ' ',
+    'O': '🚪',
+    'X': '🔥',
+    'I': '🔥',
     'PLAYER': '🐺',
   };
   

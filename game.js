@@ -27,6 +27,7 @@ let timeStart;
 let timePlayer;
 let timeInterval;
 let map=[];
+let mapWin=[]
 let emoji=[];
 
 
@@ -68,9 +69,11 @@ function startGame() {
     game.textAlign = 'end';
 
     map = maps[level];
+    mapWin = maps[maps.length-1];
+
 
     if(!map) {
-
+        fillWin();
         gameWin();
         return
     }
@@ -105,22 +108,17 @@ function startGame() {
 
 
 function fillCanvas() {
-
-    // console.log({canvasSize, elementSize})
+ 
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
-
+       
     enemyPosition=[];
 
     game.clearRect(0,0, canvasSize, canvasSize)
 
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
-        if(!map) {
-            emoji = emojisResult[col];
-        } else {
-            emoji = emojis[col];
-        }
+        emoji = emojis[col];
 
         const posX= elementSize *(colI+1)
         const posY= elementSize *(rowI+1)
@@ -150,6 +148,82 @@ function fillCanvas() {
 
 }
 
+function fillWin() {
+    
+    const mapRowsWin = mapWin.trim().split('\n');
+    const mapRowColsWin = mapRowsWin.map(row => row.trim().split(''));
+       
+    enemyPosition=[];
+
+    game.clearRect(0,0, canvasSize, canvasSize)
+
+    mapRowColsWin.forEach((row, rowI) => {
+        row.forEach((col, colI) => {
+        emoji = emojisWin[col];
+
+        const posX= elementSize *(colI+1)
+        const posY= elementSize *(rowI+1)
+
+        if (col=='O') {
+           if(!playerPosition.x && !playerPosition.y){
+            playerPosition.x = posX;
+            playerPosition.y = posY;
+            // console.log({playerPosition});
+           }
+        } else if (col=='I') {
+            giftPosition.x = posX;
+            giftPosition.y = posY;
+            // console.log({giftPosition});
+        } else if (col=='X') {
+            enemyPosition.push({
+                x: posX,
+                y: posY,
+            });
+
+        }
+        game.fillText(emoji, posX, posY);
+        });
+    });
+}
+
+function fillLose() {
+    
+    const mapRowsLose = map.trim().split('\n');
+    const mapRowColsLose = mapRowsLose.map(row => row.trim().split(''));
+       
+    enemyPosition=[];
+
+    game.clearRect(0,0, canvasSize, canvasSize)
+
+    mapRowColsLose.forEach((row, rowI) => {
+        row.forEach((col, colI) => {
+        emoji = emojisLose[col];
+
+        const posX= elementSize *(colI+1)
+        const posY= elementSize *(rowI+1)
+
+        if (col=='O') {
+           if(!playerPosition.x && !playerPosition.y){
+            playerPosition.x = posX;
+            playerPosition.y = posY;
+            // console.log({playerPosition});
+           }
+        } else if (col=='I') {
+            giftPosition.x = posX;
+            giftPosition.y = posY;
+            // console.log({giftPosition});
+        } else if (col=='X') {
+            enemyPosition.push({
+                x: posX,
+                y: posY,
+            });
+
+        }
+        game.fillText(emoji, posX, posY);
+        });
+    });
+}
+
 
 function movePlayer () {
     const giftCollisionX = playerPosition.x.toFixed(1) == giftPosition.x.toFixed(1);
@@ -171,8 +245,18 @@ function movePlayer () {
 
     if(enemyCollision) {
 
+        lives--;
         game.fillText(emojis['BOMB_COLLISION'], playerPosition.x, playerPosition.y);
-        setTimeout(levelFail,500);
+        
+        if(lives<=0){
+            setTimeout(fillLose,500);
+            setTimeout(levelFail,1000);
+            
+        }else {
+            setTimeout(levelFail,500);
+        }
+       
+
     }
 
    }
@@ -186,25 +270,21 @@ function levelWin() {
 
 
 function levelFail() {
-    // console.log('Chocaste con una bomba');
-    // const emoji = emojis['BOMB_COLLISION'];
-    // game.fillText(emoji, playerPosition.x, playerPosition.y);
-    lives--;
-
+    
     if(lives<=0){
-
+        
         level=0;
         lives=3;
         timeStart = undefined;
     }
     playerPosition.x= undefined;
     playerPosition.y= undefined;
+    
     startGame();
     }
 
 
 function gameWin() {
-    // fillCanvas();
 
     clearInterval(timeInterval);
 
@@ -212,8 +292,6 @@ function gameWin() {
     const playerTime = Date.now()- timeStart;
 
     if(recordTime){
-
-
         if (recordTime >= playerTime){
             localStorage.setItem('record_time', playerTime);
             pResult.innerHTML='Superaste el record';
@@ -226,7 +304,11 @@ function gameWin() {
     }
 
     console.log({recordTime, playerTime});
+
+
     }
+
+    
 
 
 // function winner() {
