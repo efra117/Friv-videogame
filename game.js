@@ -75,7 +75,7 @@ function startGame() {
     if(!map) {
         fillWin();
         gameWin();
-        return
+        return;
     }
 
     if(!timeStart) {
@@ -251,9 +251,10 @@ function movePlayer () {
         if(lives<=0){
             setTimeout(fillLose,500);
             setTimeout(levelFail,1000);
-            
+            return
         }else {
             setTimeout(levelFail,500);
+            return
         }
        
 
@@ -304,7 +305,6 @@ function gameWin() {
     }
 
     console.log({recordTime, playerTime});
-
 
     }
 
